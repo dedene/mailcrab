@@ -121,7 +121,7 @@ pub fn smtp_listen<A: ToSocketAddrs>(
             let key_exists = fs::metadata("key.pem").is_ok();
 
             if cert_exists && key_exists {
-                event!(Level::INFO, "Certificate already exists! Skipping generation...");
+              event!(Level::INFO, "Certificate already exists! Skipping generation...");
             } else {
               let mut cert_params = CertificateParams::default();
               let mut dis_name = DistinguishedName::new();
