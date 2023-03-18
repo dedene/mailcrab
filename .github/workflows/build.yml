@@ -45,19 +45,19 @@ jobs:
     strategy:
       matrix:
         name:
-          - linux-x86-64-gnu
-          - linux-arm64-gnu
+          - linux-x86-64-musl
+          - linux-arm64-musl
         include:
-          - name: linux-x86-64-gnu
+          - name: linux-x86-64-musl
             os: ubuntu-20.04
-            target: x86_64-unknown-linux-gnu
-            platform: ~
-            cross: false
+            target: x86_64-unknown-linux-musl
+            platform: amd64
+            cross: true
 
-          - name: linux-arm64-gnu
+          - name: linux-arm64-musl
             os: ubuntu-20.04
-            target: aarch64-unknown-linux-gnu
-            platform: ~
+            target: aarch64-unknown-linux-musl
+            platform: arm64
             cross: true
 
     steps:
@@ -93,16 +93,6 @@ jobs:
         run:
           cross build --release --locked --target ${{ matrix.target }} --manifest-path
           backend/Cargo.toml
-
-      - name: Copy binaries
-        if: ${{ matrix.platform == null }}
-        shell: bash
-        run: |
-          mkdir -p bin
-          src="backend/target/${{ matrix.target }}/release/mailcrab-backend"
-          dst="bin/mailcrab-${{ matrix.name }}-${{ github.ref_name }}"
-          cp "$src" "$dst"
-          sha256sum -b "$dst" > "$dst.sha256"
 
       - name: Copy binary
         if: ${{ matrix.platform != null }}
