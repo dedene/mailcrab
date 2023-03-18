@@ -46,10 +46,7 @@ jobs:
       matrix:
         name:
           - linux-x86-64-gnu
-          - linux-armv7-gnu
           - linux-arm64-gnu
-          - linux-x86-64-musl
-          - linux-arm64-musl
         include:
           - name: linux-x86-64-gnu
             os: ubuntu-20.04
